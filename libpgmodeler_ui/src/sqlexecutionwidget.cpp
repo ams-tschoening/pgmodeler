@@ -53,10 +53,10 @@ SQLExecutionWidget::SQLExecutionWidget(QWidget * parent) : QWidget(parent)
 	connect(find_history_wgt->hide_tb, SIGNAL(clicked(bool)), find_history_parent, SLOT(hide()));
 
 	sql_cmd_hl=new SyntaxHighlighter(sql_cmd_txt, false);
-	sql_cmd_hl->loadConfiguration(GlobalAttributes::get().SQLHighlightConfPath);
+	sql_cmd_hl->loadConfiguration(GlobalAttributes::SQLHighlightConfPath);
 
 	cmd_history_hl=new SyntaxHighlighter(cmd_history_txt, false);
-	cmd_history_hl->loadConfiguration(GlobalAttributes::get().SQLHighlightConfPath);
+	cmd_history_hl->loadConfiguration(GlobalAttributes::SQLHighlightConfPath);
 
 	results_parent->setVisible(false);
 	output_tbw->setTabEnabled(0, false);
@@ -923,7 +923,7 @@ void SQLExecutionWidget::toggleOutputPane(bool visible)
 }
 
 void SQLExecutionWidget::configureSnippets(void)
-{
+{ 
 	SnippetsConfigWidget::configureSnippetsMenu(&snippets_menu);
 	code_compl_wgt->configureCompletion(nullptr, sql_cmd_hl);
 }
@@ -943,30 +943,30 @@ void SQLExecutionWidget::saveSQLHistory(void)
 			attribs[Attributes::Connection] = hist.first;
 			attribs[Attributes::Commands] = hist.second;
 			schparser.ignoreEmptyAttributes(true);
-			commands += schparser.getCodeDefinition(GlobalAttributes::get().TmplConfigurationDir +
-																							GlobalAttributes::get().DirSeparator +
-																							GlobalAttributes::get().SchemasDir +
-																							GlobalAttributes::get().DirSeparator +
+			commands += schparser.getCodeDefinition(GlobalAttributes::TmplConfigurationDir +
+																							GlobalAttributes::DirSeparator +
+																							GlobalAttributes::SchemasDir +
+																							GlobalAttributes::DirSeparator +
 																							Attributes::Commands +
-																							GlobalAttributes::get().SchemaExt, attribs);
+																							GlobalAttributes::SchemaExt, attribs);
 		}
 
-		schparser.loadFile(GlobalAttributes::get().TmplConfigurationDir +
-											 GlobalAttributes::get().DirSeparator +
-											 GlobalAttributes::get().SchemasDir +
-											 GlobalAttributes::get().DirSeparator +
-											 GlobalAttributes::get().SQLHistoryConf +
-											 GlobalAttributes::get().SchemaExt);
+		schparser.loadFile(GlobalAttributes::TmplConfigurationDir +
+											 GlobalAttributes::DirSeparator +
+											 GlobalAttributes::SchemasDir +
+											 GlobalAttributes::DirSeparator +
+											 GlobalAttributes::SQLHistoryConf +
+											 GlobalAttributes::SchemaExt);
 
 		attribs.clear();
 		attribs[Attributes::Commands] = commands;
 		buffer.append(schparser.getCodeDefinition(attribs));
 
 
-		file.setFileName(GlobalAttributes::get().ConfigurationsDir +
-										 GlobalAttributes::get().DirSeparator +
-										 GlobalAttributes::get().SQLHistoryConf +
-										 GlobalAttributes::get().ConfigurationExt);
+		file.setFileName(GlobalAttributes::ConfigurationsDir +
+										 GlobalAttributes::DirSeparator +
+										 GlobalAttributes::SQLHistoryConf +
+										 GlobalAttributes::ConfigurationExt);
 
 		if(!file.open(QFile::WriteOnly))
 			throw Exception(Exception::getErrorMessage(ErrorCode::FileDirectoryNotAccessed).arg(file.fileName()),
@@ -988,18 +988,18 @@ void SQLExecutionWidget::loadSQLHistory(void)
 		XmlParser xmlparser;
 		attribs_map attribs;
 
-		xmlparser.setDTDFile(GlobalAttributes::get().TmplConfigurationDir +
-												 GlobalAttributes::get().DirSeparator +
-												 GlobalAttributes::get().ObjectDTDDir +
-												 GlobalAttributes::get().DirSeparator +
-												 GlobalAttributes::get().SQLHistoryConf +
-												 GlobalAttributes::get().ObjectDTDExt,
-												 GlobalAttributes::get().SQLHistoryConf);
+		xmlparser.setDTDFile(GlobalAttributes::TmplConfigurationDir +
+												 GlobalAttributes::DirSeparator +
+												 GlobalAttributes::ObjectDTDDir +
+												 GlobalAttributes::DirSeparator +
+												 GlobalAttributes::SQLHistoryConf +
+												 GlobalAttributes::ObjectDTDExt,
+												 GlobalAttributes::SQLHistoryConf);
 
-		xmlparser.loadXMLFile(GlobalAttributes::get().ConfigurationsDir +
-													GlobalAttributes::get().DirSeparator +
-													GlobalAttributes::get().SQLHistoryConf +
-													GlobalAttributes::get().ConfigurationExt);
+		xmlparser.loadXMLFile(GlobalAttributes::ConfigurationsDir +
+													GlobalAttributes::DirSeparator +
+													GlobalAttributes::SQLHistoryConf +
+													GlobalAttributes::ConfigurationExt);
 
 		cmd_history.clear();
 
@@ -1036,10 +1036,10 @@ void SQLExecutionWidget::destroySQLHistory(void)
 
 	if(msg_box.result() == QDialog::Accepted)
 	{
-		QFile::remove(GlobalAttributes::get().ConfigurationsDir +
-									GlobalAttributes::get().DirSeparator +
-									GlobalAttributes::get().SQLHistoryConf +
-									GlobalAttributes::get().ConfigurationExt);
+		QFile::remove(GlobalAttributes::ConfigurationsDir +
+									GlobalAttributes::DirSeparator +
+									GlobalAttributes::SQLHistoryConf +
+									GlobalAttributes::ConfigurationExt);
 
 		SQLExecutionWidget::cmd_history.clear();
 	}

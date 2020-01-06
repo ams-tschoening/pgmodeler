@@ -366,15 +366,15 @@ void FunctionWidget::selectLanguage(void)
 	{
 		try
 		{
-			source_code_hl->loadConfiguration(GlobalAttributes::get().ConfigurationsDir +
-												GlobalAttributes::get().DirSeparator +
+			source_code_hl->loadConfiguration(GlobalAttributes::ConfigurationsDir +
+												GlobalAttributes::DirSeparator +
 											  language_cmb->currentText() +
-												GlobalAttributes::get().HighlightFileSuffix +
-												GlobalAttributes::get().ConfigurationExt);
+												GlobalAttributes::HighlightFileSuffix +
+												GlobalAttributes::ConfigurationExt);
 		}
 		catch(Exception &)
 		{
-			source_code_hl->loadConfiguration(GlobalAttributes::get().SQLHighlightConfPath);
+			source_code_hl->loadConfiguration(GlobalAttributes::SQLHighlightConfPath);
 		}
 
 		source_code_hl->rehighlight();

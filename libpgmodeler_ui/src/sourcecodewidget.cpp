@@ -242,10 +242,10 @@ void SourceCodeWidget::setAttributes(DatabaseModel *model, BaseObject *object)
 			obj_icon_lbl->setPixmap(QPixmap(PgModelerUiNs::getIconPath(object->getObjectType())));
 
 			if(!hl_sqlcode->isConfigurationLoaded())
-				hl_sqlcode->loadConfiguration(GlobalAttributes::get().SQLHighlightConfPath);
+				hl_sqlcode->loadConfiguration(GlobalAttributes::SQLHighlightConfPath);
 
 			if(!hl_xmlcode->isConfigurationLoaded())
-				hl_xmlcode->loadConfiguration(GlobalAttributes::get().XMLHighlightConfPath);
+				hl_xmlcode->loadConfiguration(GlobalAttributes::XMLHighlightConfPath);
 
 			generateSourceCode();
 		}

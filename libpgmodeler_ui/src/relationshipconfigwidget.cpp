@@ -39,10 +39,10 @@ RelationshipConfigWidget::RelationshipConfigWidget(QWidget * parent) : BaseConfi
 	for(int i=0; i < pattern_fields.size(); i++)
 	{
 		pattern_hl=new SyntaxHighlighter(pattern_fields[i], true);
-		pattern_hl->loadConfiguration(GlobalAttributes::get().ConfigurationsDir +
-									  GlobalAttributes::get().DirSeparator +
-									  GlobalAttributes::get().PatternHighlightConf +
-									  GlobalAttributes::get().ConfigurationExt);
+		pattern_hl->loadConfiguration(GlobalAttributes::ConfigurationsDir +
+									  GlobalAttributes::DirSeparator +
+									  GlobalAttributes::PatternHighlightConf +
+									  GlobalAttributes::ConfigurationExt);
 
 		connect(pattern_fields[i], SIGNAL(textChanged()), this, SLOT(updatePattern()));
 	}
@@ -96,7 +96,7 @@ void RelationshipConfigWidget::loadConfiguration(void)
 	{
 		int idx;
 		vector<QString> key_attribs={Attributes::Type};
-		BaseConfigWidget::loadConfiguration(GlobalAttributes::get().RelationshipsConf, config_params, key_attribs);
+		BaseConfigWidget::loadConfiguration(GlobalAttributes::RelationshipsConf, config_params, key_attribs);
 
 		fk_to_pk_rb->setChecked(config_params[Attributes::Connection][Attributes::Mode]==Attributes::ConnectFkToPk);
 		center_pnts_rb->setChecked(config_params[Attributes::Connection][Attributes::Mode]==Attributes::ConnectCenterPnts);
@@ -129,19 +129,19 @@ void RelationshipConfigWidget::loadConfiguration(void)
 }
 
 void RelationshipConfigWidget::saveConfiguration(void)
-{
+{  
 	try
 	{
 		QString patterns_sch, root_dir;
 
-		root_dir=GlobalAttributes::get().TmplConfigurationDir +
-				 GlobalAttributes::get().DirSeparator;
+		root_dir=GlobalAttributes::TmplConfigurationDir +
+				 GlobalAttributes::DirSeparator;
 
 		patterns_sch=root_dir +
-					 GlobalAttributes::get().SchemasDir +
-					 GlobalAttributes::get().DirSeparator +
+					 GlobalAttributes::SchemasDir +
+					 GlobalAttributes::DirSeparator +
 					 Attributes::Patterns +
-					 GlobalAttributes::get().SchemaExt;
+					 GlobalAttributes::SchemaExt;
 
 
 		if(crows_foot_rb->isChecked())
@@ -168,7 +168,7 @@ void RelationshipConfigWidget::saveConfiguration(void)
 			config_params[Attributes::NamePatterns][Attributes::Patterns]+=schparser.getCodeDefinition(patterns_sch, itr.second);
 		}
 
-		BaseConfigWidget::saveConfiguration(GlobalAttributes::get().RelationshipsConf, config_params);
+		BaseConfigWidget::saveConfiguration(GlobalAttributes::RelationshipsConf, config_params);
 	}
 	catch(Exception &e)
 	{
@@ -195,7 +195,7 @@ void RelationshipConfigWidget::restoreDefaults(void)
 {
 	try
 	{
-		BaseConfigWidget::restoreDefaults(GlobalAttributes::get().RelationshipsConf, false);
+		BaseConfigWidget::restoreDefaults(GlobalAttributes::RelationshipsConf, false);
 		this->loadConfiguration();
 		setConfigurationChanged(true);
 	}
